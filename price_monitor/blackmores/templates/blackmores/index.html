@@ -1,0 +1,12 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'blackmores/style.css' %}" />
+{% if ProductAu %}
+    <ul>
+    {% for product in ProductAu %}
+    <li><a href="{% url 'blackmores:detail' product.pid %}">{{ product.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No blackmores are available.</p>
+{% endif %}

@@ -1,0 +1,29 @@
+<!-- Load the path to your static files -->
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="{% static 'hist_price/style.css' %}" />
+<link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <!-- Logo -->
+        <div class="navbar-header">
+            <a class="navbarbrand" href="{% url 'hist_price:index' %}">HOME</a>
+        </div>
+    </div>
+</nav>
+
+{% if all_brands %}
+    <h3>Here are all the brands.</h3>
+    <ul>
+        {% for brand in all_brands %}
+        <li><a href="{% url 'hist_price:detail' brand.id %}">{{ brand.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h3>You don't have any brand.</h3>
+{% endif %}
