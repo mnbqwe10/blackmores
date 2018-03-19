@@ -1,0 +1,10 @@
+<img src="{{ brand.logo }}">
+
+<h1>{{ brand.name }}</h1>
+<h3>Import from {{ brand.country }}</h3>
+
+<ul>
+    {% for item in brand.item_set.all %}
+    <li>{{ item.pid }} {{ item.brand }} {{ item.name }} {{ item.size }}</li>
+    {% endfor %}
+</ul>
