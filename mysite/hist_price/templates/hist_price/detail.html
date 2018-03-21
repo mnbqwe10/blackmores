@@ -8,3 +8,10 @@
     <li>{{ item.pid }} {{ item.brand }} {{ item.name }} {{ item.size }}</li>
     {% endfor %}
 </ul>
+
+<form action="/hist_price/successful/" method="post">
+    {% csrf_token %}
+    <label for="add_sku">Add SKU: </label>
+    <input id="add_sku" type="text" name="add_sku" maxlength="100" required />
+    <input type="submit" value="Submit" />
+</form>
