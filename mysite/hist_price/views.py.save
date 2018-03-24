@@ -1,0 +1,28 @@
+from django.shortcuts import render, get_object_or_404
+from .models import Brand
+
+from django.http import HttpResponseRedirect
+from .forms import SKUForm<form action="/your-name/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form
+# Create your views here.
+def index(request):
+    all_brands = Brand.objects.all()
+    return render(request, 'hist_price/index.html', {'all_brands': all_brands})
+
+
+def detail(request, brand_id):
+    brand = get_object_or_404(Brand, pk=brand_id)
+    return render(request, 'hist_price/detail.html', {'brand': brand})
+
+def add_sku(request):
+    if request.method == 'POST':
+        form = NameForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/thanks/')
+    else:
+        form = NameForm()
+
+    return render(request, 'name.html', {'form': form})

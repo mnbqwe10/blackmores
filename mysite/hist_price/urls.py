@@ -11,6 +11,6 @@ urlpatterns = [
     # /hist_price/<brand_id>/
     path('<int:brand_id>/', views.detail, name='detail'),
     #url(r'^(<int:poll_id>\d+)/$', views.detail, name='detail'),
-    path('name/', views.add_sku, name='add_sku'),
+    path('add_sku/<int:brand_id>/', views.add_sku, name='add_sku'),
     path('successful/', views.successful, name='successful'),
 ]
