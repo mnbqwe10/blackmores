@@ -25,7 +25,7 @@ SECRET_KEY = 'ej+!4aovrc97x$wb8=%ggq-%8f1=gt32!b%mf8itir74b89$pl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'35.197.145.38']
+ALLOWED_HOSTS = [u'35.197.153.166']
 
 
 # Application definition

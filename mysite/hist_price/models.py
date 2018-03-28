@@ -23,7 +23,10 @@ class Item(models.Model):
         return '{} {} {}'.format(str(self.pid), self.name, self.size)
 
 
-class History(models.Model):
-    Item = models.ForeignKey(Item, on_delete=models.CASCADE)
+class PriceHistory(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     date = models.DateField()
+
+    def __str__(self):
+        return '{} {} {}'.format(self.item, self.date, str(self.price))
