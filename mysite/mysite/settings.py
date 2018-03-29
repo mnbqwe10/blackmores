@@ -25,13 +25,21 @@ SECRET_KEY = 'ej+!4aovrc97x$wb8=%ggq-%8f1=gt32!b%mf8itir74b89$pl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'35.197.153.166']
+ALLOWED_HOSTS = [u'35.197.145.38']
+
+# by ql
+# django_cron
+CRON_CLASSES = [
+#    'tasks.tasks.MyCronJob',
+    'tasks.tasks.UpdateHistoryPrice',
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'hist_price',
+    'django_cron',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
