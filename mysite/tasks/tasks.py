@@ -17,7 +17,7 @@ class MyCronJob(CronJobBase):
         p.save()
 '''
 def get_current_price(pid):
-    return float(pid)/100
+    return 99.99
 
 class UpdateHistoryPrice(CronJobBase):
     RUN_EVERY_MINS = 1
@@ -26,12 +26,15 @@ class UpdateHistoryPrice(CronJobBase):
     code = 'my_app.my_cron_job'
 
     def do(self):
-        #for item in Item.objects.all():
-            #if item.brand == 'GNC':
-        i=Item.objects.get(pk=1)
-        current_price = get_current_price(i.pid)
-        time_tag = datetime.datetime.now().strtime("%Y-%m-%d")
+        for item in Item.objects.all():
+            if item.brand == 'GNC':
+                current_price = get_current_price(123456)
+                time_tag = datetime.datetime.now().strftime("%Y-%m-%d")
+                PriceHistory.objects.create(item=item, price=current_price, date=time_tag)
+
+        #current_price = get_current_price(i.pid)
+        #time_tag = datetime.datetime.now().strtime("%Y-%m-%d")
         #p = PriceHistory(item=item, price=12.5, date=time_tag) 
-        p = PriceHistory(item=i, price=current_price, date='2018-03-30')
-        p.save()
+        #p = PriceHistory(item=i, price=current_price, date='2018-03-30')
+        #p.save()
 
