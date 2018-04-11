@@ -25,7 +25,8 @@ SECRET_KEY = 'ej+!4aovrc97x$wb8=%ggq-%8f1=gt32!b%mf8itir74b89$pl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'35.197.153.166']
+ALLOWED_HOSTS = [u'35.197.153.166',
+                 u'127.0.0.1',]
 
 # by ql
 # django_cron
@@ -39,7 +40,8 @@ CRON_CLASSES = [
 
 INSTALLED_APPS = [
     'hist_price',
-    'django_cron',
+    'django.contrib.humanize',
+    # 'blackmores',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,12 +83,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
+# DATABASE_ROUTERS = ['mysite.db_router.BlackmoresRouter']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    # 'blackmores': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'blackmores_db.sqlite3'),
+    # }
 }
 
 

@@ -1,0 +1,44 @@
+{% load humanize %}
+
+<table class="table" id="products" data-num-pages="{{ products.paginator.num_pages }}">
+  <thead>
+    <tr>
+      <th><a href="?o=name{% if querystring %}&q={{ querystring }}{% endif %}">Name</a></th>
+      <th class="text-center"><a href="?o=pid{% if querystring %}&q={{ querystring }}{% endif %}">pid</a></th>
+      <th class="text-center"><a href="?o=current_price{% if querystring %}&q={{ querystring }}{% endif %}">Price</a></th>
+      <th class="text-center"><a href="?o=price_percentage_variance{% if querystring %}&q={{ querystring }}{% endif %}">Variance</a></th>
+      <th class="text-center"><a href="?o=price_changes{% if querystring %}&q={{ querystring }}{% endif %}">Changes</a></th>
+      <th class="text-center" style="white-space: nowrap;"><a href="?o=visited_at{% if querystring %}&q={{ querystring }}{% endif %}">Last update</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products %}
+      <tr>
+        <td>
+          <a href="{% url 'product' product.pid %}">{{ product.name }}</a>
+        </td>
+        <td class="text-right" style="white-space: nowrap;">
+          <a href="{{ product.url }}" target="_blank">{{ product.pid }} <span class="glyphicon glyphicon-new-window" style="font-size: 60%;"></span></a>
+        </td>
+        <td class="text-right" style="white-space: nowrap;">{{ product.get_current_price_display }}</td>
+        <td style="white-space: nowrap;">
+          {% if product.price_percentage_variance < 0.0 %}
+            <span class="text-success">
+              <span class="glyphicon glyphicon-arrow-down" style="font-size: 75%;"></span>
+              <strong>{{ product.get_price_raw_variance_display }} <small>({{ product.get_price_percentage_variance_display }})</small></strong>
+            </span>
+          {% elif product.price_percentage_variance > 0.0 %}
+            <span class="text-danger">
+              <span class="glyphicon glyphicon-arrow-up" style="font-size: 75%;"></span>
+              <strong>{{ product.get_price_raw_variance_display }} <small>({{ product.get_price_percentage_variance_display }})</small></strong>
+            </span>
+          {% endif %}
+        </td>
+        <td class="text-right" style="white-space: nowrap;">{{ product.price_changes }}</td>
+        <td class="text-right" style="white-space: nowrap;">
+          <small>{{ product.visited_at|naturaltime }}</small>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

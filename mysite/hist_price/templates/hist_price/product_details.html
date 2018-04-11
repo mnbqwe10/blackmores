@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
+    <script type="text/javascript">
+      google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Date', 'Price'],
+          {% for price in price_history_chart %}
+            ['{{ price.created_at }}',  {{ price.price }}]{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        ]);
+
+        var options = {
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+
+{% endblock %}
+
+{% block content %}
+  <h3 class="product-title">{{ product.name }}</h3>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      
+      <p>
+        <a href="javascript:history.back();"><span class="glyphicon glyphicon-arrow-left"></span> Return to catalog</a>
+      </p>
+
+      <dl class="dl-horizontal">
+        <dt>Product Code</dt>
+        <dd>{{ product.code }}</dd>
+        {% if product.manufacturer %}
+        <dt>Manufacturer</dt>
+        <dd>{{ product.manufacturer }}</dd>
+        {% endif %}
+        {% if product.manufacturer_code %}
+        <dt>Manufacturer Code</dt>
+        <dd>{{ product.manufacturer_code }}</dd>
+        {% endif %}
+        <dt>Last update</dt>
+        <dd>
+          {{ product.visited_at|naturaltime }}
+          {% comment %}
+          <form method="post" action="{% url 'refresh' product.code %}" style="display: inline-block;">
+            {% endcomment %}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-default btn-xs">
+              <span class="glyphicon glyphicon-refresh"></span> Refresh
+            </button>
+          </form>
+        </dd>
+        <dt>View at Verkkokauppa</dt>
+        <dd><a href="{{ product.get_url }}" target="_blank">{{ product.get_url }} <span class="glyphicon glyphicon-new-window" style="font-size: 60%;"></span></a></dd>
+      </dl>
+
+      <hr>
+
+      <h4>Price History</h4>
+      <div class="row">
+        <div class="col-sm-4">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Price</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for price in product.price_history.all %}
+                <tr>
+                  <td class="text-right">{{ price.get_price_display }}</td>
+                  <td>{{ price.created_at }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-8">
+          <div id="chart"></div>
+        </div>
+      </div>
+
+      {% if product.images.exists %}
+        <hr>
+
+        <h4>Pictures</h4>
+        <div class="row">
+          {% for image in product.images.all %}
+            <div class="col-xs-6 col-md-3">
+              <a href="{{ image.get_secure_url }}" class="thumbnail" target="_blank">
+                <img src="{{ image.get_secure_url }}" alt="{{ image.product.name }}">
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+{% endblock %}
